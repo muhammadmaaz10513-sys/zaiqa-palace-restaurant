@@ -1,7 +1,6 @@
 export const RESTAURANT_INFO = {
   name: 'Zaiqa Palace & Grill',
   tagline: 'Authentic Royal Flavors & Modern Desi Culinary Excellence',
-  taglineSecondary: 'Saylani Mass IT Training (ASF Campus) Hackathon Edition',
   phone: '+92 300 1234567',
   address: 'ASF Skyview Commercial, Airport Road, Karachi, Pakistan',
   timings: '12:00 PM – 1:00 AM (Mon - Sun)',

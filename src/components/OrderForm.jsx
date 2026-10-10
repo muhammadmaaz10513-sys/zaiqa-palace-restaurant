@@ -11,9 +11,6 @@ import {
   Send, 
   AlertCircle, 
   CheckCircle2, 
-  Sparkles, 
-  Mail, 
-  Database,
   ArrowRight
 } from 'lucide-react';
 import { DISHES } from '../data/menuData';
@@ -26,7 +23,6 @@ export default function OrderForm({
   onClearCart,
   onPlaceOrder,
   isSubmitting,
-  onOpenEmailConfig
 }) {
   const [formData, setFormData] = useState({
     name: '',
@@ -115,13 +111,13 @@ export default function OrderForm({
         <div className="text-center max-w-2xl mx-auto space-y-3 mb-12">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-500/10 text-orange-400 text-xs font-semibold border border-orange-500/20">
             <ShoppingBag className="w-3.5 h-3.5" />
-            <span>Requirement 2, 3 & 4: Order Form · Gmail · Supabase</span>
+            <span>Quick & Easy Online Checkout</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
             Place Your Food Order
           </h2>
           <p className="text-sm sm:text-base text-slate-400">
-            Fill in your delivery information below, pick your favorite dishes and quantities, and click Place Order. Your order is instantly saved to Supabase and dispatched to your Gmail.
+            Fill in your delivery address below, choose your favorite dishes and quantities, and click Place Order to enjoy freshly prepared food.
           </p>
         </div>
 
@@ -307,15 +303,8 @@ export default function OrderForm({
                 <div>
                   <h3 className="font-bold text-lg text-white">Customer Delivery Information</h3>
                   <p className="text-xs text-slate-400">
-                    Requirement 2: Name, Phone & Address must all be filled (<span className="text-orange-400 font-medium">required</span>).
+                    Please provide your delivery details below (<span className="text-orange-400 font-medium">* all fields required</span>).
                   </p>
-                </div>
-                <div className="hidden sm:flex items-center gap-1.5 text-xs text-slate-400 bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-800">
-                  <Database className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>Saves to Supabase</span>
-                  <span className="text-slate-600">•</span>
-                  <Mail className="w-3.5 h-3.5 text-orange-400" />
-                  <span>Sends to Gmail</span>
                 </div>
               </div>
             </div>
@@ -440,18 +429,13 @@ export default function OrderForm({
                 </div>
               </div>
 
-              {/* Integration status notice */}
+              {/* Payment & Delivery Notice */}
               <div className="bg-slate-900 rounded-xl p-3 border border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
-                <span>
-                  Destination: <strong className="text-slate-200">Your Gmail & Supabase DB</strong>
+                <span className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Payment Method: <strong className="text-slate-200">Cash on Delivery (COD)</strong></span>
                 </span>
-                <button
-                  type="button"
-                  onClick={onOpenEmailConfig}
-                  className="text-orange-400 hover:underline font-semibold"
-                >
-                  Change Email Settings
-                </button>
+                <span className="text-emerald-400 font-medium">Delivery: 30-40 Mins</span>
               </div>
 
               {/* Submit Button */}
@@ -463,7 +447,7 @@ export default function OrderForm({
                 {isSubmitting ? (
                   <>
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    <span>Processing & Dispatching Order...</span>
+                    <span>Placing Your Order...</span>
                   </>
                 ) : (
                   <>
@@ -474,7 +458,7 @@ export default function OrderForm({
               </button>
 
               <p className="text-[11px] text-center text-slate-500">
-                ⚡ Upon clicking Place Order, order is saved with status <span className="text-amber-400 font-semibold font-mono">Pending</span> in Supabase & dispatched to Gmail.
+                ⚡ Fast delivery across Karachi • Freshly prepared upon order
               </p>
             </form>
           </div>

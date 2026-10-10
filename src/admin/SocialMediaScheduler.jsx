@@ -89,8 +89,6 @@ export const SCHEDULED_POSTS = [
 ];
 
 export default function SocialMediaScheduler() {
-  const [activePlatform, setActivePlatform] = useState('all');
-
   return (
     <div className="space-y-8 text-slate-100">
       {/* Header */}
@@ -98,7 +96,7 @@ export default function SocialMediaScheduler() {
         <div>
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-500/10 text-orange-400 text-xs font-semibold border border-orange-500/20 mb-2">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Part B: Requirement 7 (20 marks)</span>
+            <span>Automated Social Media Campaigns</span>
           </div>
           <h2 className="text-2xl font-bold text-white tracking-tight">
             Automated Social Media Scheduler
@@ -108,9 +106,9 @@ export default function SocialMediaScheduler() {
           </p>
         </div>
 
-        {/* Screenshot Helper Badge */}
+        {/* Schedule Badge */}
         <div className="bg-slate-900 border border-amber-500/30 rounded-xl p-3 text-xs text-amber-300 max-w-sm">
-          <strong>📸 Submission Ready:</strong> Take a screenshot of this scheduler view showing the 4 times below for your Sunday Hackathon submission!
+          <strong>📸 Social Automation:</strong> Showing the 4 scheduled publication times across Instagram & Facebook.
         </div>
       </div>
 
@@ -167,7 +165,7 @@ export default function SocialMediaScheduler() {
                     </td>
                     <td className="p-3.5 text-center whitespace-nowrap">
                       <span className="inline-flex items-center gap-1 bg-emerald-500/20 text-emerald-400 text-[11px] font-bold px-2.5 py-0.5 rounded-full border border-emerald-500/30">
-                        <CheckCircle className="w-3 h-3" /> Scheduled
+                        <CheckCircle className="w-3.5 h-3.5" /> Scheduled
                       </span>
                     </td>
                   </tr>
@@ -203,7 +201,7 @@ export default function SocialMediaScheduler() {
                 </div>
 
                 <div className="flex items-center gap-1 text-[11px] text-amber-400 font-mono font-semibold bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
-                  <Clock className="w-3 h-3" />
+                  <Clock className="w-3.5 h-3.5" />
                   <span>{post.day} · {post.time}</span>
                 </div>
               </div>

@@ -1,8 +1,8 @@
 import React from 'react';
-import { UtensilsCrossed, Phone, MapPin, Clock, Heart, Shield } from 'lucide-react';
+import { UtensilsCrossed, Phone, MapPin, Clock, Shield, Award, Sparkles } from 'lucide-react';
 import { RESTAURANT_INFO } from '../data/menuData';
 
-export default function Footer({ onOpenAdmin, onOpenEmailConfig }) {
+export default function Footer() {
   return (
     <footer className="bg-slate-950 border-t border-slate-800 text-slate-400 text-xs pt-12 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
@@ -26,17 +26,12 @@ export default function Footer({ onOpenAdmin, onOpenEmailConfig }) {
 
           {/* Col 2: Quick Links */}
           <div className="space-y-2">
-            <h4 className="font-bold text-slate-200 text-xs uppercase tracking-wider">Quick Navigation</h4>
+            <h4 className="font-bold text-slate-200 text-xs uppercase tracking-wider">Quick Links</h4>
             <ul className="space-y-1.5 text-xs">
-              <li><a href="#home" className="hover:text-orange-400 transition">Home & Hero</a></li>
-              <li><a href="#menu" className="hover:text-orange-400 transition">Our Menu (At least 6 dishes)</a></li>
-              <li><a href="#order-form" className="hover:text-orange-400 transition">Order Form</a></li>
+              <li><a href="#home" className="hover:text-orange-400 transition">Home</a></li>
+              <li><a href="#menu" className="hover:text-orange-400 transition">Our Menu</a></li>
+              <li><a href="#order-form" className="hover:text-orange-400 transition">Order Online</a></li>
               <li><a href="#reviews" className="hover:text-orange-400 transition">Customer Reviews</a></li>
-              <li>
-                <button onClick={onOpenAdmin} className="hover:text-orange-400 transition text-left">
-                  Admin Dashboard (Part B)
-                </button>
-              </li>
             </ul>
           </div>
 
@@ -54,37 +49,34 @@ export default function Footer({ onOpenAdmin, onOpenEmailConfig }) {
               </li>
               <li className="flex items-center gap-2">
                 <Phone className="w-3.5 h-3.5 text-orange-400 shrink-0" />
-                <span>{RESTAURANT_INFO.phone}</span>
+                <a href={`tel:${RESTAURANT_INFO.phone}`} className="hover:underline">
+                  {RESTAURANT_INFO.phone}
+                </a>
               </li>
             </ul>
           </div>
 
-          {/* Col 4: Hackathon Notice */}
+          {/* Col 4: Quality Commitment */}
           <div className="space-y-2 bg-slate-900/60 p-4 rounded-2xl border border-slate-800">
-            <h4 className="font-bold text-orange-400 text-xs">SMIT Hackathon 2026</h4>
-            <p className="text-[11px] text-slate-400 leading-relaxed">
-              Saylani Mass IT Training (ASF Campus)
-              <br />Modern Web & App Development with AI
-              <br />Saturday: Part A (50 marks)
-              <br />Sunday: Part B (50 marks)
-            </p>
-            <button
-              onClick={onOpenEmailConfig}
-              className="mt-2 w-full text-center text-xs bg-slate-800 hover:bg-slate-750 text-slate-200 py-1.5 rounded-lg border border-slate-700 transition"
-            >
-              Configure Gmail Address
-            </button>
+            <h4 className="font-bold text-orange-400 text-xs flex items-center gap-1.5">
+              <Award className="w-4 h-4" /> Why Choose Us?
+            </h4>
+            <ul className="space-y-1.5 text-[11px] text-slate-400 leading-relaxed">
+              <li>• Pure Desi Ghee & Fresh Ingredients</li>
+              <li>• Charcoal Smoke Handcrafted BBQ</li>
+              <li>• Express Hot Delivery (30-40 Mins)</li>
+              <li>• Cash on Delivery across Karachi</li>
+            </ul>
           </div>
         </div>
 
         <div className="pt-6 border-t border-slate-850 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-slate-500">
-          <p>© 2026 {RESTAURANT_INFO.name}. Built for SMIT ASF Campus Restaurant Hackathon.</p>
+          <p>© 2026 {RESTAURANT_INFO.name}. All rights reserved.</p>
           <p className="flex items-center gap-1">
-            Built with React, Tailwind CSS, Supabase & Web3Forms
+            Authentic Pakistani Cuisine & Charcoal BBQ
           </p>
         </div>
       </div>
     </footer>
   );
 }
-

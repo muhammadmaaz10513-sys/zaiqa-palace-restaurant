@@ -6,23 +6,20 @@ import {
   LogOut, 
   RefreshCw, 
   Clock, 
-  Calendar, 
   Phone, 
   MapPin, 
   ShoppingBag, 
   CheckCircle2, 
   AlertCircle, 
-  ChevronRight, 
   Search, 
-  Filter, 
   Share2, 
-  Database,
-  ArrowLeft
+  ArrowLeft,
+  Database
 } from 'lucide-react';
 import { fetchAllOrders, updateOrderStatus } from '../supabaseClient';
 import SocialMediaScheduler from './SocialMediaScheduler';
 
-export default function AdminDashboard({ onBackToWebsite, onOpenEmailConfig }) {
+export default function AdminDashboard({ onBackToWebsite }) {
   // Auth state
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
     return localStorage.getItem('smit_admin_logged_in') === 'true';
@@ -32,7 +29,7 @@ export default function AdminDashboard({ onBackToWebsite, onOpenEmailConfig }) {
   const [loginError, setLoginError] = useState('');
 
   // Dashboard navigation tab
-  const [activeTab, setActiveTab] = useState('orders'); // 'orders' | 'social' | 'schema'
+  const [activeTab, setActiveTab] = useState('orders'); // 'orders' | 'social'
   const [statusFilter, setStatusFilter] = useState('all'); // 'all' | 'Pending' | 'Preparing' | 'Delivered'
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -69,7 +66,7 @@ export default function AdminDashboard({ onBackToWebsite, onOpenEmailConfig }) {
       localStorage.setItem('smit_admin_logged_in', 'true');
       setLoginError('');
     } else {
-      setLoginError('Invalid admin email or password. Use test credentials provided below.');
+      setLoginError('Invalid admin email or password. Please use correct credentials.');
     }
   };
 
@@ -79,7 +76,7 @@ export default function AdminDashboard({ onBackToWebsite, onOpenEmailConfig }) {
     localStorage.removeItem('smit_admin_logged_in');
   };
 
-  // Change order status (Requirement 6: Pending -> Preparing -> Delivered)
+  // Change order status: Pending -> Preparing -> Delivered
   const handleChangeStatus = async (orderId, newStatus) => {
     setUpdatingId(orderId);
     const result = await updateOrderStatus(orderId, newStatus);
@@ -89,7 +86,7 @@ export default function AdminDashboard({ onBackToWebsite, onOpenEmailConfig }) {
       setOrders((prev) =>
         prev.map((o) => (o.id === orderId ? { ...o, status: newStatus } : o))
       );
-      setActionMessage(`Order status updated to "${newStatus}" and saved to Supabase.`);
+      setActionMessage(`Order status updated to "${newStatus}" in Supabase.`);
       setTimeout(() => setActionMessage(null), 3000);
     } else {
       alert(`Could not update status in Supabase: ${result.error}`);
@@ -119,9 +116,9 @@ export default function AdminDashboard({ onBackToWebsite, onOpenEmailConfig }) {
             <div className="w-14 h-14 bg-orange-500/10 border border-orange-500/20 text-orange-400 rounded-2xl flex items-center justify-center mx-auto">
               <ShieldCheck className="w-8 h-8" />
             </div>
-            <h2 className="text-2xl font-black tracking-tight text-white">Admin Dashboard Login</h2>
+            <h2 className="text-2xl font-black tracking-tight text-white">Restaurant Admin Portal</h2>
             <p className="text-xs text-slate-400">
-              Requirement 5: Only the admin can go in.
+              Authorized personnel only. Please sign in to manage orders.
             </p>
           </div>
 
@@ -161,16 +158,16 @@ export default function AdminDashboard({ onBackToWebsite, onOpenEmailConfig }) {
               </div>
             </div>
 
-            {/* Test credentials helper */}
+            {/* Default test credentials notice */}
             <div className="bg-slate-950 rounded-xl p-3 border border-slate-800 text-[11px] text-slate-400 space-y-1">
-              <p className="font-semibold text-slate-300">Hackathon Test Credentials:</p>
+              <p className="font-semibold text-slate-300">Admin Login Credentials:</p>
               <p>Email: <code className="text-orange-400 font-mono">admin@zaiqa.com</code></p>
               <p>Password: <code className="text-orange-400 font-mono">admin123</code></p>
             </div>
 
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold py-3 rounded-xl text-xs transition active:scale-95 shadow-lg shadow-orange-500/20"
+              className="w-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold py-3 rounded-xl text-xs transition active:scale-95 shadow-lg shadow-orange-500/20 cursor-pointer"
             >
               Sign In to Dashboard
             </button>
@@ -178,7 +175,7 @@ export default function AdminDashboard({ onBackToWebsite, onOpenEmailConfig }) {
             <button
               type="button"
               onClick={onBackToWebsite}
-              className="w-full text-center text-xs text-slate-400 hover:text-white transition pt-2"
+              className="w-full text-center text-xs text-slate-400 hover:text-white transition pt-2 cursor-pointer"
             >
               ← Back to Restaurant Website
             </button>
@@ -200,7 +197,7 @@ export default function AdminDashboard({ onBackToWebsite, onOpenEmailConfig }) {
             </div>
             <div>
               <h3 className="font-bold text-sm text-white">Admin Portal</h3>
-              <p className="text-[10px] text-slate-400">SMIT Hackathon</p>
+              <p className="text-[10px] text-slate-400">Order Management</p>
             </div>
           </div>
         </div>
@@ -209,7 +206,7 @@ export default function AdminDashboard({ onBackToWebsite, onOpenEmailConfig }) {
         <nav className="p-4 space-y-1.5 flex-1">
           <button
             onClick={() => setActiveTab('orders')}
-            className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold transition ${
+            className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold transition cursor-pointer ${
               activeTab === 'orders'
                 ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/25'
                 : 'text-slate-300 hover:bg-slate-800/80 hover:text-white'
@@ -226,22 +223,14 @@ export default function AdminDashboard({ onBackToWebsite, onOpenEmailConfig }) {
 
           <button
             onClick={() => setActiveTab('social')}
-            className={`w-full flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition ${
+            className={`w-full flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition cursor-pointer ${
               activeTab === 'social'
                 ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/25'
                 : 'text-slate-300 hover:bg-slate-800/80 hover:text-white'
             }`}
           >
             <Share2 className="w-4 h-4" />
-            <span>Social Media (Part B)</span>
-          </button>
-
-          <button
-            onClick={onOpenEmailConfig}
-            className="w-full flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-xs font-medium text-slate-400 hover:bg-slate-800 hover:text-white transition"
-          >
-            <Mail className="w-4 h-4" />
-            <span>Gmail Configuration</span>
+            <span>Social Media</span>
           </button>
         </nav>
 
@@ -249,7 +238,7 @@ export default function AdminDashboard({ onBackToWebsite, onOpenEmailConfig }) {
         <div className="p-4 border-t border-slate-800 space-y-2">
           <button
             onClick={onBackToWebsite}
-            className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs text-slate-400 hover:text-white hover:bg-slate-800 transition"
+            className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs text-slate-400 hover:text-white hover:bg-slate-800 transition cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>View Public Website</span>
@@ -257,7 +246,7 @@ export default function AdminDashboard({ onBackToWebsite, onOpenEmailConfig }) {
 
           <button
             onClick={handleLogout}
-            className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 transition"
+            className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 transition cursor-pointer"
           >
             <LogOut className="w-4 h-4" />
             <span>Logout</span>
@@ -283,14 +272,14 @@ export default function AdminDashboard({ onBackToWebsite, onOpenEmailConfig }) {
               <div>
                 <h1 className="text-2xl font-bold text-white tracking-tight">Customer Orders</h1>
                 <p className="text-xs text-slate-400">
-                  Requirement 5 & 6: View customer, dishes, total, time, and change status (Pending → Preparing → Delivered).
+                  Manage incoming customer orders, customer contact, dishes, total, time and update status.
                 </p>
               </div>
 
               <button
                 onClick={loadOrders}
                 disabled={loading}
-                className="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-750 text-slate-200 px-3.5 py-2 rounded-xl text-xs font-semibold border border-slate-700 transition"
+                className="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-750 text-slate-200 px-3.5 py-2 rounded-xl text-xs font-semibold border border-slate-700 transition cursor-pointer"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
                 <span>Refresh Orders</span>
@@ -305,7 +294,7 @@ export default function AdminDashboard({ onBackToWebsite, onOpenEmailConfig }) {
                   <button
                     key={st}
                     onClick={() => setStatusFilter(st)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium capitalize transition ${
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium capitalize transition cursor-pointer ${
                       statusFilter === st
                         ? 'bg-orange-500 text-white font-semibold'
                         : 'text-slate-400 hover:text-white hover:bg-slate-800'
@@ -323,7 +312,7 @@ export default function AdminDashboard({ onBackToWebsite, onOpenEmailConfig }) {
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Filter by customer, phone, dishes..."
+                  placeholder="Search customer, phone, dishes..."
                   className="w-full bg-slate-950 border border-slate-800 rounded-lg pl-8.5 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-orange-500"
                 />
               </div>
@@ -340,7 +329,7 @@ export default function AdminDashboard({ onBackToWebsite, onOpenEmailConfig }) {
                 <p className="text-slate-300 font-semibold text-sm">No orders found</p>
                 <p className="text-xs text-slate-500">
                   {orders.length === 0
-                    ? "No orders in Supabase yet. Place an order on the website or verify the 'orders' table schema."
+                    ? "No orders received yet."
                     : 'No orders matching the current filter.'}
                 </p>
               </div>
@@ -430,7 +419,7 @@ export default function AdminDashboard({ onBackToWebsite, onOpenEmailConfig }) {
                         </div>
                       </div>
 
-                      {/* Bottom Bar: Total and Status Change Controls (Requirement 6) */}
+                      {/* Bottom Bar: Total and Status Change Controls (Pending -> Preparing -> Delivered) */}
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-3 border-t border-slate-800/80">
                         <div className="flex items-baseline gap-2">
                           <span className="text-xs text-slate-400">Total Bill:</span>
@@ -446,7 +435,7 @@ export default function AdminDashboard({ onBackToWebsite, onOpenEmailConfig }) {
                           <button
                             onClick={() => handleChangeStatus(order.id, 'Pending')}
                             disabled={isUpdating || order.status === 'Pending'}
-                            className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition ${
+                            className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition cursor-pointer ${
                               order.status === 'Pending'
                                 ? 'bg-amber-500 text-slate-950 cursor-default'
                                 : 'bg-slate-800 hover:bg-amber-500/20 text-slate-300 hover:text-amber-300 border border-slate-750'
@@ -458,7 +447,7 @@ export default function AdminDashboard({ onBackToWebsite, onOpenEmailConfig }) {
                           <button
                             onClick={() => handleChangeStatus(order.id, 'Preparing')}
                             disabled={isUpdating || order.status === 'Preparing'}
-                            className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition ${
+                            className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition cursor-pointer ${
                               order.status === 'Preparing'
                                 ? 'bg-blue-500 text-white cursor-default'
                                 : 'bg-slate-800 hover:bg-blue-500/20 text-slate-300 hover:text-blue-300 border border-slate-750'
@@ -470,7 +459,7 @@ export default function AdminDashboard({ onBackToWebsite, onOpenEmailConfig }) {
                           <button
                             onClick={() => handleChangeStatus(order.id, 'Delivered')}
                             disabled={isUpdating || order.status === 'Delivered'}
-                            className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition ${
+                            className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition cursor-pointer ${
                               order.status === 'Delivered'
                                 ? 'bg-emerald-500 text-slate-950 cursor-default'
                                 : 'bg-slate-800 hover:bg-emerald-500/20 text-slate-300 hover:text-emerald-300 border border-slate-750'

@@ -6,16 +6,47 @@ import MenuSection from './components/MenuSection';
 import OrderForm from './components/OrderForm';
 import ReviewsSection from './components/ReviewsSection';
 import Footer from './components/Footer';
-import SupabaseBanner from './components/SupabaseBanner';
-import EmailSettingsModal from './components/EmailSettingsModal';
 import OrderSuccessModal from './components/OrderSuccessModal';
-import AdminDashboard from './components/AdminDashboard';
+import AdminDashboard from './admin/AdminDashboard';
 import { saveOrderToSupabase } from './supabaseClient';
 import { sendOrderToGmail } from './services/emailService';
 
 export default function App() {
-  // Navigation View: 'website' or 'admin'
-  const [activeView, setActiveView] = useState('website');
+  // Check if current route is admin portal (/admin or #admin or ?admin=true)
+  const isInitialAdmin = () => {
+    return (
+      window.location.pathname === '/admin' ||
+      window.location.pathname.startsWith('/admin') ||
+      window.location.hash === '#admin' ||
+      window.location.search.includes('admin=true')
+    );
+  };
+
+  const [activeView, setActiveView] = useState(() => (isInitialAdmin() ? 'admin' : 'website'));
+
+  // Listen to browser navigation changes
+  useEffect(() => {
+    const handleUrlChange = () => {
+      if (isInitialAdmin()) {
+        setActiveView('admin');
+      } else {
+        setActiveView('website');
+      }
+    };
+
+    window.addEventListener('popstate', handleUrlChange);
+    window.addEventListener('hashchange', handleUrlChange);
+    return () => {
+      window.removeEventListener('popstate', handleUrlChange);
+      window.removeEventListener('hashchange', handleUrlChange);
+    };
+  }, []);
+
+  const navigateToWebsite = () => {
+    window.history.pushState({}, '', '/');
+    setActiveView('website');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   // Cart state: array of { id, name, price, quantity, image }
   const [cart, setCart] = useState(() => {
@@ -28,7 +59,6 @@ export default function App() {
   });
 
   // Modal states
-  const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [lastOrder, setLastOrder] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -73,12 +103,12 @@ export default function App() {
     setCart([]);
   };
 
-  // Place order handler (Meets Requirement 2, 3 & 4)
+  // Place order handler: saves to Supabase and sends to muhammadmaazramzan786@gmail.com
   const handlePlaceOrder = async (orderPayload) => {
     setIsSubmitting(true);
 
     try {
-      // 1. Save to Supabase (Requirement 4: Saved in table 'orders' with status 'Pending')
+      // 1. Save to Supabase 'orders' table with status 'Pending'
       const supabaseResult = await saveOrderToSupabase(orderPayload);
 
       const completeOrder = {
@@ -88,7 +118,7 @@ export default function App() {
         created_at: new Date().toISOString(),
       };
 
-      // 2. Dispatch to Gmail (Requirement 3: Full order comes to Gmail)
+      // 2. Dispatch to recipient email: muhammadmaazramzan786@gmail.com
       const emailResult = await sendOrderToGmail(completeOrder);
 
       // 3. Trigger celebration confetti
@@ -107,9 +137,8 @@ export default function App() {
       setIsSuccessModalOpen(true);
       handleClearCart();
 
-      // If user uses direct Gmail composer, trigger in a small delayed popup
       if (emailResult.method === 'gmail_direct' && emailResult.gmailUrl) {
-        // Will be available in the success modal via button as well
+        // Compose link ready in OrderSuccessModal
       }
     } catch (err) {
       console.error('Order submission error:', err);
@@ -121,47 +150,36 @@ export default function App() {
 
   const totalCartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
-  // If viewing admin portal (Part B)
+  // If viewing admin portal (located in /admin or #admin)
   if (activeView === 'admin') {
-    return (
-      <AdminDashboard
-        onBackToWebsite={() => setActiveView('website')}
-        onOpenEmailConfig={() => setIsEmailModalOpen(true)}
-      />
-    );
+    return <AdminDashboard onBackToWebsite={navigateToWebsite} />;
   }
 
-  // Public Restaurant Website (Part A)
+  // Public Restaurant Website
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-orange-500 selection:text-white">
-      {/* Supabase status verification banner */}
-      <SupabaseBanner />
-
-      {/* Main Navigation Bar */}
+      {/* Clean Restaurant Navigation Bar */}
       <Navbar
         cartCount={totalCartCount}
         onOpenCart={() => {
           const el = document.getElementById('order-form');
           if (el) el.scrollIntoView({ behavior: 'smooth' });
         }}
-        onOpenEmailConfig={() => setIsEmailModalOpen(true)}
-        onOpenAdmin={() => setActiveView('admin')}
-        activeView={activeView}
       />
 
       {/* Main Content */}
       <main className="flex-1">
-        {/* Requirement 1: Home and big top section */}
-        <Hero onOpenEmailConfig={() => setIsEmailModalOpen(true)} />
+        {/* Hero Section */}
+        <Hero />
 
-        {/* Requirement 1: Menu with at least 6 dishes, pictures, names and prices */}
+        {/* Menu Section (9 dishes) */}
         <MenuSection
           cart={cart}
           onAddToCart={handleAddToCart}
           onUpdateQuantity={handleUpdateQuantity}
         />
 
-        {/* Requirement 2, 3 & 4: Order Form with required validation, Gmail dispatch & Supabase save */}
+        {/* Order Form (Customer Details & Dish Tray) */}
         <OrderForm
           cart={cart}
           onAddToCart={handleAddToCart}
@@ -170,25 +188,16 @@ export default function App() {
           onClearCart={handleClearCart}
           onPlaceOrder={handlePlaceOrder}
           isSubmitting={isSubmitting}
-          onOpenEmailConfig={() => setIsEmailModalOpen(true)}
         />
 
-        {/* Testimonials and social proof */}
+        {/* Reviews Section */}
         <ReviewsSection />
       </main>
 
-      {/* Footer */}
-      <Footer
-        onOpenAdmin={() => setActiveView('admin')}
-        onOpenEmailConfig={() => setIsEmailModalOpen(true)}
-      />
+      {/* Clean Restaurant Footer */}
+      <Footer />
 
-      {/* Modals */}
-      <EmailSettingsModal
-        isOpen={isEmailModalOpen}
-        onClose={() => setIsEmailModalOpen(false)}
-      />
-
+      {/* Order Confirmation Receipt Modal */}
       <OrderSuccessModal
         order={lastOrder}
         isOpen={isSuccessModalOpen}

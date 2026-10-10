@@ -2,7 +2,7 @@ import React from 'react';
 import { ArrowRight, Star, Flame, Sparkles, Shield, Clock, Award } from 'lucide-react';
 import { RESTAURANT_INFO } from '../data/menuData';
 
-export default function Hero({ onOpenEmailConfig }) {
+export default function Hero() {
   return (
     <section id="home" className="relative overflow-hidden pt-8 pb-16 lg:py-20 bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950">
       {/* Background ambient lighting */}
@@ -12,10 +12,10 @@ export default function Hero({ onOpenEmailConfig }) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Left Column: Headline and CTAs */}
           <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-            {/* Hackathon Badge */}
+            {/* Quality Badge */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs font-semibold backdrop-blur-sm">
-              <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-spin-slow" />
-              <span>SMIT ASF Campus Restaurant Hackathon · Part A</span>
+              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+              <span>Authentic Flavors · 100% Charcoal Grilled</span>
             </div>
 
             {/* Main Big Restaurant Name and Top Headline */}
@@ -53,7 +53,7 @@ export default function Hero({ onOpenEmailConfig }) {
                 href="#order-form"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold px-7 py-3.5 rounded-xl shadow-xl shadow-orange-500/25 transition active:scale-95 text-base"
               >
-                <span>Place Your Order</span>
+                <span>Order Food Online</span>
                 <ArrowRight className="w-5 h-5" />
               </a>
 
@@ -63,14 +63,6 @@ export default function Hero({ onOpenEmailConfig }) {
               >
                 <span>Explore Full Menu</span>
               </a>
-
-              <button
-                type="button"
-                onClick={onOpenEmailConfig}
-                className="text-xs text-slate-400 hover:text-amber-400 underline underline-offset-4 transition py-2"
-              >
-                Set Destination Gmail
-              </button>
             </div>
 
             {/* Social Proof */}
@@ -115,7 +107,7 @@ export default function Hero({ onOpenEmailConfig }) {
                       href="#order-form"
                       className="text-xs bg-white text-slate-900 font-bold px-3.5 py-1.5 rounded-lg hover:bg-orange-400 hover:text-white transition"
                     >
-                      Quick Order
+                      Order Now
                     </a>
                   </div>
                 </div>
@@ -138,8 +130,8 @@ export default function Hero({ onOpenEmailConfig }) {
                   ⚡
                 </div>
                 <div>
-                  <p className="text-[11px] text-slate-400">Live Hackathon Sync</p>
-                  <p className="text-xs font-bold text-emerald-400">Orders → Gmail & Supabase</p>
+                  <p className="text-[11px] text-slate-400">Doorstep Delivery</p>
+                  <p className="text-xs font-bold text-emerald-400">Hot & Fresh in 30 Mins</p>
                 </div>
               </div>
             </div>
@@ -149,4 +141,3 @@ export default function Hero({ onOpenEmailConfig }) {
     </section>
   );
 }
-

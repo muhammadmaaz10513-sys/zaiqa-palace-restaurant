@@ -35,7 +35,7 @@ export default function MenuSection({ cart, onAddToCart, onUpdateQuantity }) {
         <div className="text-center max-w-2xl mx-auto space-y-3">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-500/10 text-orange-400 text-xs font-semibold border border-orange-500/20">
             <Flame className="w-3.5 h-3.5" />
-            <span>Hackathon Menu (Requirement 1: At least 6 dishes)</span>
+            <span>Chef's Handcrafted Specialties</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
             Our Handcrafted Menu

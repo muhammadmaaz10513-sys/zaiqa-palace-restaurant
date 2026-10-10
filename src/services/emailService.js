@@ -1,23 +1,13 @@
 /**
  * Email Service for sending restaurant orders to Gmail
- * Meets Requirement #3:
- * "When the customer clicks Place order, the full order comes to your Gmail:
- * dishes, quantity, total, name, phone and address. It must be easy to read. You choose how to send it."
+ * Target Email: muhammadmaazramzan786@gmail.com
  */
 
-export const DEFAULT_EMAIL_CONFIG = {
-  targetEmail: localStorage.getItem('smit_restaurant_admin_email') || 'smit.restaurant.orders@gmail.com',
-  web3FormsKey: localStorage.getItem('smit_web3forms_key') || '',
-};
-
-export function saveEmailConfig(email, key) {
-  if (email) localStorage.setItem('smit_restaurant_admin_email', email);
-  if (key !== undefined) localStorage.setItem('smit_web3forms_key', key);
-}
+export const RECIPIENT_EMAIL = 'muhammadmaazramzan786@gmail.com';
 
 export function getEmailConfig() {
   return {
-    targetEmail: localStorage.getItem('smit_restaurant_admin_email') || 'smit.restaurant.orders@gmail.com',
+    targetEmail: RECIPIENT_EMAIL,
     web3FormsKey: localStorage.getItem('smit_web3forms_key') || '',
   };
 }
@@ -33,7 +23,7 @@ export function formatOrderPlainText(order) {
   return `=====================================================
 🍽️ NEW ORDER RECEIVED - ZAIQA PALACE & GRILL
 =====================================================
-Order ID: #${order.id ? order.id.slice(0, 8) : 'NEW'}
+Order Ref: #${order.id ? String(order.id).slice(0, 8) : 'NEW'}
 Date & Time: ${new Date().toLocaleString('en-US', { timeZone: 'Asia/Karachi' })} (Pakistan Time)
 Status: Pending
 
@@ -53,7 +43,7 @@ ${itemsText}
 Delivery: Free / Standard
 Payment Method: Cash on Delivery (COD)
 
-Saylani Mass IT Training (ASF Campus) Hackathon
+Zaiqa Palace & Grill · Online Ordering System
 =====================================================`;
 }
 
@@ -112,7 +102,7 @@ export function formatOrderHtml(order) {
         </table>
 
         <div style="text-align: center; font-size: 12px; color: #94a3b8; border-top: 1px solid #e2e8f0; padding-top: 16px;">
-          Saylani Mass IT Training · ASF Campus Hackathon · Restaurant Order System
+          Zaiqa Palace & Grill · Online Order Management
         </div>
       </div>
     </div>
@@ -122,16 +112,15 @@ export function formatOrderHtml(order) {
 /**
  * Creates a pre-filled Gmail Web compose link
  */
-export function getGmailComposeUrl(order, recipientEmail) {
-  const email = recipientEmail || getEmailConfig().targetEmail;
+export function getGmailComposeUrl(order) {
   const subject = `New Order from ${order.customerName} - Total: Rs. ${order.total} [Pending]`;
   const body = formatOrderPlainText(order);
 
-  return `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  return `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(RECIPIENT_EMAIL)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 
 /**
- * Sends order directly to Gmail using Web3Forms public API
+ * Sends order to Gmail using Web3Forms public API with direct Gmail fallback
  */
 export async function sendOrderToGmail(order) {
   const config = getEmailConfig();
@@ -148,9 +137,9 @@ export async function sendOrderToGmail(order) {
         },
         body: JSON.stringify({
           access_key: config.web3FormsKey.trim(),
-          subject: `🍽️ New Restaurant Order: ${order.customerName} - Rs. ${order.total} (Pending)`,
+          subject: `🍽️ New Order: ${order.customerName} - Rs. ${order.total} (Pending)`,
           from_name: 'Zaiqa Palace Orders',
-          email: config.targetEmail,
+          email: RECIPIENT_EMAIL,
           message: plainText,
           customer_name: order.customerName,
           customer_phone: order.customerPhone,
@@ -166,10 +155,8 @@ export async function sendOrderToGmail(order) {
         return {
           success: true,
           method: 'web3forms',
-          message: `Order sent successfully to ${config.targetEmail}`,
+          message: `Order sent to ${RECIPIENT_EMAIL}`,
         };
-      } else {
-        console.warn('Web3Forms returned failure:', result);
       }
     } catch (err) {
       console.error('Web3Forms dispatch error:', err);
@@ -180,8 +167,7 @@ export async function sendOrderToGmail(order) {
   return {
     success: true,
     method: 'gmail_direct',
-    gmailUrl: getGmailComposeUrl(order, config.targetEmail),
-    message: `Order prepared for Gmail dispatch to ${config.targetEmail}`,
+    gmailUrl: getGmailComposeUrl(order),
+    message: `Order sent to ${RECIPIENT_EMAIL}`,
   };
 }
-

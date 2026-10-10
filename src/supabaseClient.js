@@ -29,7 +29,7 @@ export async function testOrdersTable() {
 
 /**
  * Saves a new customer order into the Supabase 'orders' table.
- * A new order always has status 'Pending' per hackathon specs.
+ * A new order always has status 'Pending'.
  */
 export async function saveOrderToSupabase(orderData) {
   try {
