@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 import { formatOrderPlainText } from '../services/emailService';
 
-export default function OrderSuccessModal({ order, isOpen, onClose }) {
+export default function OrderSuccessModal({ order, isOpen, onClose, onTrackOrder }) {
   const [copied, setCopied] = useState(false);
 
   if (!isOpen || !order) return null;
@@ -128,7 +128,7 @@ export default function OrderSuccessModal({ order, isOpen, onClose }) {
         </div>
 
         {/* Modal Footer */}
-        <div className="p-4 bg-slate-950 border-t border-slate-800 flex items-center justify-between gap-3 shrink-0">
+        <div className="p-4 bg-slate-950 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3 shrink-0">
           <button
             onClick={copySummary}
             className="flex items-center gap-1.5 text-xs bg-slate-800 hover:bg-slate-750 text-slate-200 px-3 py-2 rounded-xl border border-slate-700 transition cursor-pointer"
@@ -137,12 +137,26 @@ export default function OrderSuccessModal({ order, isOpen, onClose }) {
             <span>{copied ? 'Copied Receipt!' : 'Copy Receipt'}</span>
           </button>
 
-          <button
-            onClick={onClose}
-            className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 py-2 rounded-xl text-xs transition cursor-pointer"
-          >
-            Done
-          </button>
+          <div className="flex items-center gap-2">
+            {onTrackOrder && (
+              <button
+                onClick={() => {
+                  onClose();
+                  onTrackOrder(String(order.id).slice(0, 8));
+                }}
+                className="bg-slate-800 hover:bg-slate-700 text-orange-400 font-semibold px-4 py-2 rounded-xl text-xs border border-orange-500/30 transition cursor-pointer"
+              >
+                Track Live Status
+              </button>
+            )}
+
+            <button
+              onClick={onClose}
+              className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-5 py-2 rounded-xl text-xs transition cursor-pointer"
+            >
+              Done
+            </button>
+          </div>
         </div>
       </div>
     </div>

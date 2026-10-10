@@ -106,3 +106,64 @@ export async function updateOrderStatus(orderId, newStatus) {
   }
 }
 
+/**
+ * Tracks an order by Reference ID (8-char prefix or full UUID) or phone number
+ */
+export async function trackOrderByRef(refId) {
+  try {
+    if (!refId || !refId.trim()) {
+      return { success: false, error: 'Please enter a valid Reference ID.' };
+    }
+
+    const cleanInput = refId.trim().replace(/^#/, '').toLowerCase();
+
+    // 1. If full 36-char UUID, try direct match
+    if (cleanInput.length === 36 && cleanInput.includes('-')) {
+      const { data, error } = await supabase
+        .from('orders')
+        .select('*')
+        .eq('id', cleanInput)
+        .maybeSingle();
+
+      if (!error && data) {
+        return { success: true, order: data };
+      }
+    }
+
+    // 2. Search across recent orders by ID prefix or match
+    const { data: allOrders, error } = await supabase
+      .from('orders')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(100);
+
+    if (error) {
+      return { success: false, error: error.message };
+    }
+
+    const matched = (allOrders || []).find((o) => {
+      const orderId = String(o.id).toLowerCase();
+      const phone = String(o.customer_phone || '').replace(/[^0-9]/g, '');
+      const inputDigits = cleanInput.replace(/[^0-9]/g, '');
+
+      return (
+        orderId.startsWith(cleanInput) ||
+        orderId.includes(cleanInput) ||
+        (inputDigits.length >= 7 && phone.includes(inputDigits))
+      );
+    });
+
+    if (matched) {
+      return { success: true, order: matched };
+    }
+
+    return {
+      success: false,
+      error: `No order found with Reference ID #${cleanInput}. Please check your receipt.`,
+    };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+}
+
+

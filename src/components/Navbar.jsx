@@ -1,8 +1,8 @@
 import React from 'react';
-import { UtensilsCrossed, ShoppingBag } from 'lucide-react';
+import { UtensilsCrossed, ShoppingBag, Search } from 'lucide-react';
 import { RESTAURANT_INFO } from '../data/menuData';
 
-export default function Navbar({ cartCount, onOpenCart }) {
+export default function Navbar({ cartCount, onOpenCart, onOpenTrack }) {
   return (
     <header className="sticky top-0 z-40 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 shadow-xl transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
@@ -25,14 +25,31 @@ export default function Navbar({ cartCount, onOpenCart }) {
           <a href="#home" className="hover:text-orange-400 transition">Home</a>
           <a href="#menu" className="hover:text-orange-400 transition">Our Menu</a>
           <a href="#order-form" className="hover:text-orange-400 transition">Order Online</a>
+          <button 
+            onClick={onOpenTrack}
+            className="hover:text-orange-400 transition cursor-pointer flex items-center gap-1"
+          >
+            <span>Track Order</span>
+          </button>
           <a href="#reviews" className="hover:text-orange-400 transition">Reviews</a>
         </nav>
 
-        {/* Cart / Order Trigger button */}
-        <div className="flex items-center gap-3">
+        {/* Action Controls */}
+        <div className="flex items-center gap-2.5">
+          {/* Track Order Button */}
+          <button
+            onClick={onOpenTrack}
+            className="flex items-center gap-1.5 text-xs font-semibold px-3 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-750 transition cursor-pointer"
+            title="Track Order by Reference ID"
+          >
+            <Search className="w-3.5 h-3.5 text-orange-400" />
+            <span className="hidden sm:inline">Track Order</span>
+          </button>
+
+          {/* Cart / Order Trigger button */}
           <a
             href="#order-form"
-            className="relative flex items-center gap-2 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-semibold px-4.5 py-2.5 rounded-xl text-sm shadow-lg shadow-orange-500/25 transition active:scale-95"
+            className="relative flex items-center gap-2 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-semibold px-4.5 py-2 rounded-xl text-sm shadow-lg shadow-orange-500/25 transition active:scale-95"
           >
             <ShoppingBag className="w-4 h-4" />
             <span className="hidden sm:inline">Your Order</span>

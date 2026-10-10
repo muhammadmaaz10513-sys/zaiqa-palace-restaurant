@@ -7,6 +7,7 @@ import OrderForm from './components/OrderForm';
 import ReviewsSection from './components/ReviewsSection';
 import Footer from './components/Footer';
 import OrderSuccessModal from './components/OrderSuccessModal';
+import TrackOrderModal from './components/TrackOrderModal';
 import AdminDashboard from './admin/AdminDashboard';
 import { saveOrderToSupabase } from './supabaseClient';
 import { sendOrderToGmail } from './services/emailService';
@@ -60,6 +61,8 @@ export default function App() {
 
   // Modal states
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [isTrackModalOpen, setIsTrackModalOpen] = useState(false);
+  const [trackingRefId, setTrackingRefId] = useState('');
   const [lastOrder, setLastOrder] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -161,6 +164,10 @@ export default function App() {
           const el = document.getElementById('order-form');
           if (el) el.scrollIntoView({ behavior: 'smooth' });
         }}
+        onOpenTrack={() => {
+          setTrackingRefId('');
+          setIsTrackModalOpen(true);
+        }}
       />
 
       {/* Main Content */}
@@ -198,6 +205,17 @@ export default function App() {
         order={lastOrder}
         isOpen={isSuccessModalOpen}
         onClose={() => setIsSuccessModalOpen(false)}
+        onTrackOrder={(refId) => {
+          setTrackingRefId(refId);
+          setIsTrackModalOpen(true);
+        }}
+      />
+
+      {/* Live Order Tracking Modal */}
+      <TrackOrderModal
+        isOpen={isTrackModalOpen}
+        onClose={() => setIsTrackModalOpen(false)}
+        initialRefId={trackingRefId}
       />
     </div>
   );
