@@ -1,14 +1,16 @@
 import React, { useState, useMemo } from 'react';
 import { Search, Plus, Minus, ShoppingCart, Check, Star, Clock, Flame } from 'lucide-react';
-import { DISHES, MENU_CATEGORIES } from '../data/menuData';
+import { getAllDishes, MENU_CATEGORIES } from '../data/menuData';
 
 export default function MenuSection({ cart, onAddToCart, onUpdateQuantity }) {
   const [activeCategory, setActiveCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
 
   // Filter dishes based on category and search query
+  const allDishes = useMemo(() => getAllDishes(), []);
+
   const filteredDishes = useMemo(() => {
-    return DISHES.filter((dish) => {
+    return allDishes.filter((dish) => {
       const matchesCategory =
         activeCategory === 'All' ||
         (activeCategory === 'Chef Specials' && dish.badge === "Chef's Special") ||

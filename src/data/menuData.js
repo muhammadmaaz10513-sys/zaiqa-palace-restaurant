@@ -129,3 +129,17 @@ export const DISHES = [
   }
 ];
 
+export const getAllDishes = () => {
+  try {
+    const custom = localStorage.getItem('restaurant_custom_menu_items');
+    if (custom) {
+      const parsed = JSON.parse(custom);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return [...DISHES, ...parsed];
+      }
+    }
+  } catch (e) {
+    // fallback to default
+  }
+  return DISHES;
+};

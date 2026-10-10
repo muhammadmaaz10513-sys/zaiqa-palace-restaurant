@@ -8,47 +8,10 @@ import ReviewsSection from './components/ReviewsSection';
 import Footer from './components/Footer';
 import OrderSuccessModal from './components/OrderSuccessModal';
 import TrackOrderModal from './components/TrackOrderModal';
-import AdminDashboard from './admin/AdminDashboard';
 import { saveOrderToSupabase } from './supabaseClient';
 import { sendOrderToGmail } from './services/emailService';
 
 export default function App() {
-  // Check if current route is admin portal (/admin or #admin or ?admin=true)
-  const isInitialAdmin = () => {
-    return (
-      window.location.pathname === '/admin' ||
-      window.location.pathname.startsWith('/admin') ||
-      window.location.hash === '#admin' ||
-      window.location.search.includes('admin=true')
-    );
-  };
-
-  const [activeView, setActiveView] = useState(() => (isInitialAdmin() ? 'admin' : 'website'));
-
-  // Listen to browser navigation changes
-  useEffect(() => {
-    const handleUrlChange = () => {
-      if (isInitialAdmin()) {
-        setActiveView('admin');
-      } else {
-        setActiveView('website');
-      }
-    };
-
-    window.addEventListener('popstate', handleUrlChange);
-    window.addEventListener('hashchange', handleUrlChange);
-    return () => {
-      window.removeEventListener('popstate', handleUrlChange);
-      window.removeEventListener('hashchange', handleUrlChange);
-    };
-  }, []);
-
-  const navigateToWebsite = () => {
-    window.history.pushState({}, '', '/');
-    setActiveView('website');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   // Cart state: array of { id, name, price, quantity, image }
   const [cart, setCart] = useState(() => {
     try {
@@ -149,14 +112,9 @@ export default function App() {
 
   const totalCartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
-  // If viewing admin portal (located in /admin or #admin)
-  if (activeView === 'admin') {
-    return <AdminDashboard onBackToWebsite={navigateToWebsite} />;
-  }
-
-  // Public Restaurant Website
+  // Pure Public Restaurant Customer Website
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-orange-500 selection:text-white">
+    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-orange-500 selection:text-white overflow-x-hidden w-full">
       {/* Clean Restaurant Navigation Bar */}
       <Navbar
         cartCount={totalCartCount}
@@ -175,7 +133,7 @@ export default function App() {
         {/* Hero Section */}
         <Hero />
 
-        {/* Menu Section (9 dishes) */}
+        {/* Menu Section */}
         <MenuSection
           cart={cart}
           onAddToCart={handleAddToCart}

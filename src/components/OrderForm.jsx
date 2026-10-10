@@ -13,7 +13,7 @@ import {
   CheckCircle2, 
   ArrowRight
 } from 'lucide-react';
-import { DISHES } from '../data/menuData';
+import { getAllDishes } from '../data/menuData';
 
 export default function OrderForm({ 
   cart, 
@@ -50,9 +50,11 @@ export default function OrderForm({
     setTouched((prev) => ({ ...prev, [field]: true }));
   };
 
+  const allDishes = React.useMemo(() => getAllDishes(), []);
+
   const handleQuickAdd = () => {
     if (!selectedQuickDishId) return;
-    const dish = DISHES.find((d) => d.id === selectedQuickDishId);
+    const dish = allDishes.find((d) => d.id === selectedQuickDishId);
     if (dish) {
       onAddToCart(dish, quickDishQty);
       setSelectedQuickDishId('');
@@ -158,7 +160,7 @@ export default function OrderForm({
                   className="flex-1 bg-slate-950 border border-slate-750 rounded-lg px-2.5 py-2 text-xs text-slate-200 focus:outline-none focus:border-orange-500 min-w-0"
                 >
                   <option value="">-- Choose a dish from menu --</option>
-                  {DISHES.map((dish) => (
+                  {allDishes.map((dish) => (
                     <option key={dish.id} value={dish.id}>
                       {dish.name} (Rs. {dish.price})
                     </option>
