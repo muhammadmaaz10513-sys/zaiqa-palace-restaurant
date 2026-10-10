@@ -133,18 +133,9 @@ export default function App() {
       }
 
       // 4. Update UI states
-      setLastOrder({ ...completeOrder, emailResult });
+      setLastOrder(completeOrder);
       setIsSuccessModalOpen(true);
       handleClearCart();
-
-      // Automatically open Gmail with the order pre-filled so the user immediately sees it
-      if (emailResult.gmailUrl) {
-        try {
-          window.open(emailResult.gmailUrl, '_blank');
-        } catch (e) {
-          console.warn('Popup blocked, button available in modal:', e);
-        }
-      }
     } catch (err) {
       console.error('Order submission error:', err);
       alert('There was an issue processing your order. Please check the console.');
