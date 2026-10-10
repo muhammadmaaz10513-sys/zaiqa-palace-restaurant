@@ -1,29 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { 
   Calendar, 
   Clock, 
   Video, 
   Image as ImageIcon, 
   CheckCircle, 
-  Sparkles, 
-  TrendingUp,
-  Share2,
-  ExternalLink
+  Sparkles
 } from 'lucide-react';
-
-const InstagramIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
-    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
-  </svg>
-);
-
-const FacebookIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
-  </svg>
-);
 
 export const SCHEDULED_POSTS = [
   {
@@ -90,15 +73,15 @@ export const SCHEDULED_POSTS = [
 
 export default function SocialMediaScheduler() {
   return (
-    <div className="space-y-8 text-slate-100">
+    <div className="space-y-6 sm:space-y-8 text-slate-100">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
         <div>
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-500/10 text-orange-400 text-xs font-semibold border border-orange-500/20 mb-2">
-            <Sparkles className="w-3.5 h-3.5" />
+            <Sparkles className="w-3.5 h-3.5 shrink-0" />
             <span>Automated Social Media Campaigns</span>
           </div>
-          <h2 className="text-2xl font-bold text-white tracking-tight">
+          <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
             Automated Social Media Scheduler
           </h2>
           <p className="text-xs text-slate-400">
@@ -108,31 +91,31 @@ export default function SocialMediaScheduler() {
 
         {/* Schedule Badge */}
         <div className="bg-slate-900 border border-amber-500/30 rounded-xl p-3 text-xs text-amber-300 max-w-sm">
-          <strong>📸 Social Automation:</strong> Showing the 4 scheduled publication times across Instagram & Facebook.
+          <strong>📸 Social Automation:</strong> 4 scheduled publication times across Instagram & Facebook.
         </div>
       </div>
 
       {/* Official Schedule Timetable Table */}
       <div className="bg-slate-900 rounded-2xl border border-slate-800 overflow-hidden shadow-xl">
-        <div className="p-4 bg-slate-950/60 border-b border-slate-800 flex items-center justify-between">
-          <h3 className="font-bold text-sm text-white flex items-center gap-2">
-            <Calendar className="w-4 h-4 text-orange-400" />
+        <div className="p-3.5 sm:p-4 bg-slate-950/60 border-b border-slate-800 flex flex-wrap items-center justify-between gap-2">
+          <h3 className="font-bold text-xs sm:text-sm text-white flex items-center gap-2">
+            <Calendar className="w-4 h-4 text-orange-400 shrink-0" />
             <span>Master Publishing Timetable (Pakistan Standard Time)</span>
           </h3>
-          <span className="text-xs text-emerald-400 font-mono bg-emerald-950/80 px-2.5 py-0.5 rounded-full border border-emerald-800">
+          <span className="text-[11px] sm:text-xs text-emerald-400 font-mono bg-emerald-950/80 px-2.5 py-0.5 rounded-full border border-emerald-800">
             ● 4/4 Automation Active
           </span>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
+          <table className="w-full text-left text-xs min-w-[600px]">
             <thead className="bg-slate-950 text-slate-400 font-semibold border-b border-slate-800">
               <tr>
-                <th className="p-3.5">Day</th>
-                <th className="p-3.5">What (Format & Content)</th>
-                <th className="p-3.5">Scheduled Time (PKT)</th>
-                <th className="p-3.5">Why (Strategic Timing)</th>
-                <th className="p-3.5 text-center">Status</th>
+                <th className="p-3 sm:p-3.5">Day</th>
+                <th className="p-3 sm:p-3.5">Format & Content</th>
+                <th className="p-3 sm:p-3.5">Scheduled Time</th>
+                <th className="p-3 sm:p-3.5">Why (Timing Reason)</th>
+                <th className="p-3 sm:p-3.5 text-center">Status</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800/80 text-slate-300">
@@ -140,12 +123,12 @@ export default function SocialMediaScheduler() {
                 const Icon = post.icon;
                 return (
                   <tr key={post.id} className="hover:bg-slate-850/50 transition">
-                    <td className="p-3.5 font-bold text-white whitespace-nowrap">
+                    <td className="p-3 sm:p-3.5 font-bold text-white whitespace-nowrap">
                       {post.day}
                     </td>
-                    <td className="p-3.5">
+                    <td className="p-3 sm:p-3.5">
                       <div className="flex items-center gap-2">
-                        <div className="p-1.5 rounded-lg bg-slate-800 text-orange-400">
+                        <div className="p-1.5 rounded-lg bg-slate-800 text-orange-400 shrink-0">
                           <Icon className="w-4 h-4" />
                         </div>
                         <div>
@@ -154,16 +137,16 @@ export default function SocialMediaScheduler() {
                         </div>
                       </div>
                     </td>
-                    <td className="p-3.5 whitespace-nowrap">
-                      <div className="flex items-center gap-1.5 font-mono font-bold text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded-lg border border-amber-500/20 w-fit">
+                    <td className="p-3 sm:p-3.5 whitespace-nowrap">
+                      <div className="flex items-center gap-1.5 font-mono font-bold text-amber-400 bg-amber-500/10 px-2 sm:px-2.5 py-1 rounded-lg border border-amber-500/20 w-fit">
                         <Clock className="w-3.5 h-3.5" />
                         <span>{post.time} PKT</span>
                       </div>
                     </td>
-                    <td className="p-3.5 text-slate-400 max-w-xs">
+                    <td className="p-3 sm:p-3.5 text-slate-400 max-w-xs">
                       {post.reason}
                     </td>
-                    <td className="p-3.5 text-center whitespace-nowrap">
+                    <td className="p-3 sm:p-3.5 text-center whitespace-nowrap">
                       <span className="inline-flex items-center gap-1 bg-emerald-500/20 text-emerald-400 text-[11px] font-bold px-2.5 py-0.5 rounded-full border border-emerald-500/30">
                         <CheckCircle className="w-3.5 h-3.5" /> Scheduled
                       </span>
@@ -178,18 +161,18 @@ export default function SocialMediaScheduler() {
 
       {/* Visual Social Media Cards Grid */}
       <div className="space-y-4">
-        <h3 className="font-bold text-lg text-white">Visual Social Media Post Previews</h3>
+        <h3 className="font-bold text-base sm:text-lg text-white">Visual Social Media Post Previews</h3>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           {SCHEDULED_POSTS.map((post) => (
             <div
               key={post.id}
               className="bg-slate-900 rounded-2xl border border-slate-800 overflow-hidden shadow-xl flex flex-col justify-between"
             >
               {/* Post Header */}
-              <div className="p-4 bg-slate-950 flex items-center justify-between border-b border-slate-800">
+              <div className="p-3.5 sm:p-4 bg-slate-950 flex items-center justify-between border-b border-slate-800">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-amber-500 to-orange-500 p-0.5">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-amber-500 to-orange-500 p-0.5 shrink-0">
                     <div className="w-full h-full bg-slate-900 rounded-full flex items-center justify-center font-bold text-xs text-orange-400">
                       Z
                     </div>
@@ -219,7 +202,7 @@ export default function SocialMediaScheduler() {
               </div>
 
               {/* Post Caption & Details */}
-              <div className="p-4 space-y-3 bg-slate-900">
+              <div className="p-3.5 sm:p-4 space-y-3 bg-slate-900">
                 <p className="text-xs text-slate-300 leading-relaxed">
                   <strong className="text-white mr-1.5">zaiqapalace.restaurant</strong>
                   {post.caption}
@@ -237,4 +220,3 @@ export default function SocialMediaScheduler() {
     </div>
   );
 }
-

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Star, Quote, CheckCircle } from 'lucide-react';
+import { Star, CheckCircle } from 'lucide-react';
 
 const REVIEWS = [
   {
@@ -27,22 +27,22 @@ const REVIEWS = [
 
 export default function ReviewsSection() {
   return (
-    <section id="reviews" className="py-16 bg-slate-950 border-t border-slate-850">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-        <div className="text-center max-w-2xl mx-auto space-y-2">
-          <h2 className="text-3xl font-extrabold text-white tracking-tight">
+    <section id="reviews" className="py-12 sm:py-16 lg:py-20 bg-slate-950 border-t border-slate-800">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-10">
+        <div className="text-center max-w-2xl mx-auto space-y-2 sm:space-y-2.5">
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
             Loved By Thousands of Foodies
           </h2>
-          <p className="text-sm text-slate-400">
+          <p className="text-xs sm:text-sm text-slate-400 max-w-xl mx-auto leading-relaxed">
             Real reviews from our Karachi diners who appreciate authentic charcoal cooking.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
           {REVIEWS.map((rev, idx) => (
             <div
               key={idx}
-              className="bg-slate-900 rounded-2xl p-6 border border-slate-800 space-y-4 shadow-lg flex flex-col justify-between"
+              className="bg-slate-900 rounded-2xl p-5 sm:p-6 border border-slate-800 space-y-4 shadow-lg flex flex-col justify-between hover:border-slate-750 transition"
             >
               <div className="space-y-3">
                 <div className="flex text-amber-400">
@@ -50,7 +50,7 @@ export default function ReviewsSection() {
                     <Star key={i} className="w-4 h-4 fill-amber-400" />
                   ))}
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed italic">
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed italic">
                   "{rev.comment}"
                 </p>
               </div>
@@ -59,7 +59,7 @@ export default function ReviewsSection() {
                 <div>
                   <h4 className="font-bold text-white flex items-center gap-1">
                     {rev.name}
-                    <CheckCircle className="w-3 h-3 text-emerald-400" />
+                    <CheckCircle className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                   </h4>
                   <p className="text-[11px] text-slate-400">{rev.location}</p>
                 </div>
@@ -72,4 +72,3 @@ export default function ReviewsSection() {
     </section>
   );
 }
-
