@@ -2,7 +2,14 @@
 
 > **Saylani Mass IT Training (SMIT) · ASF Campus**  
 > **Course:** Modern Web & App Development with AI  
-> **Hackathon:** Restaurant Website + Social Media Automation (100 Marks)
+> **Hackathon:** Restaurant Website + Social Media Automation (100 Marks)  
+>
+> 🌐 **Live Demo:** [https://zaiqa-palace-grill.vercel.app](https://zaiqa-palace-grill.vercel.app)  
+> 👨‍💻 **Developer:** [Muhammad Maaz](https://www.linkedin.com/in/muhammad-maaz-frontend/) · [LinkedIn Profile](https://www.linkedin.com/in/muhammad-maaz-frontend/) · [GitHub](https://github.com/muhammadmaaz10513-sys)
+
+[![Live Demo](https://img.shields.io/badge/Demo-Live%20on%20Vercel-success?style=for-the-badge&logo=vercel)](https://zaiqa-palace-grill.vercel.app)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Muhammad%20Maaz-0077b5?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/muhammad-maaz-frontend/)
+[![GitHub](https://img.shields.io/badge/GitHub-Profile-181717?style=for-the-badge&logo=github)](https://github.com/muhammadmaaz10513-sys)
 
 ---
 
@@ -143,3 +150,9 @@ CREATE POLICY "Allow public update to orders" ON public.orders FOR UPDATE TO ano
 
 ---
 *Created for Saylani Mass IT Training (ASF Campus) Hackathon.*
+
+## 👨‍💻 Developer & Author
+- **Muhammad Maaz** — Frontend & Full Stack Developer
+- **LinkedIn:** [https://www.linkedin.com/in/muhammad-maaz-frontend/](https://www.linkedin.com/in/muhammad-maaz-frontend/)
+- **GitHub:** [https://github.com/muhammadmaaz10513-sys](https://github.com/muhammadmaaz10513-sys)
+- **Live Project:** [https://zaiqa-palace-grill.vercel.app](https://zaiqa-palace-grill.vercel.app)

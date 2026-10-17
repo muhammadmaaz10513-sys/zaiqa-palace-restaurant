@@ -72,7 +72,17 @@ export default function Footer() {
 
         <div className="pt-6 border-t border-slate-850 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-slate-500 text-center sm:text-left">
           <p>© 2026 {RESTAURANT_INFO.name}. All rights reserved.</p>
-          <p>Authentic Pakistani Cuisine & Charcoal BBQ</p>
+          <p>
+            Developed by{' '}
+            <a
+              href="https://www.linkedin.com/in/muhammad-maaz-frontend/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-orange-400 hover:text-orange-300 font-semibold underline underline-offset-2 transition"
+            >
+              Muhammad Maaz
+            </a>
+          </p>
         </div>
       </div>
     </footer>
